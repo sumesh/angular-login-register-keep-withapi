@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-4 col-sm-6 col-md-6">
+            <h1>Categories</h1>
+        </div>
+        <!-- <div class="col-2 col-sm-2 col-md-2">
+          
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+            <div *ngIf="success" class="success alert-danger mt-3 mb-0">{{success}}</div>
+        </div> -->
+        <div class="col-8 col-sm-6 col-md-6" style="text-align: right;">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <button mat-button (click)="addnotes(0)">
+                <mat-icon>note_add</mat-icon>
+                Add
+            </button>  
+        </div> 
+       
+    </div> 
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  cards" *ngIf="list?.length==0">
+            <mat-card>
+                <mat-card-title>No Categories found</mat-card-title>  
+            </mat-card>
+        </div> 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3  cards" *ngFor="let s of list">
+            <mat-card>
+                <mat-card-title>{{s.name}}</mat-card-title>  
+                <mat-card-subtitle>{{s.updatedOn |  date:'short' }} <span class="note-icon">
+                    <button mat-icon-button aria-label="Delete" (click)="delete(s.categoryId)">
+                        <mat-icon color="warn">delete</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Edit" (click)="addnotes(s.categoryId)">
+                        <mat-icon color="primary">edit</mat-icon>
+                      </button>
+                         
+                    </span></mat-card-subtitle>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div class="note-content">
+                        {{s.description}}
+                    </div>
+                 
+                </mat-card-content>
+            </mat-card>
+        </div>
+         
+    </div>
+</div>

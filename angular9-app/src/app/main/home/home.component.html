@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-4 col-sm-6 col-md-6">
+            <h1>Note</h1>
+        </div>
+        <div class="col-8 col-sm-6 col-md-6" style="text-align: right;">
+
+            <button mat-button (click)="addnotes()">
+                <mat-icon>note_add</mat-icon>
+                Add
+            </button>
+            
+            <button mat-button>
+                <mat-icon>list</mat-icon>
+                 List
+            </button>
+            
+            <!-- <button mat-button >
+                <mat-icon>view_column</mat-icon>
+                 Column
+            </button> -->
+        </div>
+    </div> 
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3  cards" *ngFor="let s of notes">
+            <mat-card>
+                <mat-card-title>Metadata List Card</mat-card-title>  
+                <mat-card-subtitle>Info About This Item <span   class="note-icon">
+                        <mat-icon color="warn">delete</mat-icon>
+                        <mat-icon color="primary">edit</mat-icon>
+                    </span></mat-card-subtitle>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <div class="note-content">
+                         The Shiba Inu is the smallest of the six original and distinct
+                        spitz breeds of dog from Japan.
+                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
+                        bred for hunting.
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div  class="note-remainder">
+                       <mat-icon color="primary">alarm</mat-icon>
+                       <span>Remainder</span> 
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+         
+    </div>
+</div>

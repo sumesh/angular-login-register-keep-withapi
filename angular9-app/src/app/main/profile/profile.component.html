@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    <div class="row justify-content-between">
+        <div class="col-4 col-sm-6 col-md-6">
+            <h1>Profile</h1>
+        </div>
+        <div class="col-8 col-sm-6 col-md-6" style="text-align: right;">
+
+            <button mat-button (click)="editprofile()">
+                <mat-icon>edit</mat-icon>
+                Edit profile
+            </button>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" *ngIf="edit">
+    <div class="row">
+        <div class="col-12">
+            <form [formGroup]="formsignup">
+                <mat-card>
+                    <mat-card-actions>
+                        <h1 class="h3 mb-3 font-weight-normal">Update Profile</h1>
+                    </mat-card-actions>
+                    <mat-card-content>
+
+                        <mat-form-field class="full-width">
+                            <input matInput placeholder="Name" formControlName="name">
+                            <mat-error *ngIf="f.name.errors && f.name.errors?.required">Name Required.</mat-error>
+                            <mat-error *ngIf="f.name.errors && f.name.errors?.minlength && (f.name.dirty || f.name.touched)">
+                                Min 2 characters long.
+                            </mat-error>
+
+                       
+                        </mat-form-field>
+
+                        <mat-form-field class="full-width">
+                            <input matInput type="email"  placeholder="Email" formControlName="email">
+                            <mat-error *ngIf="f.email.errors && f.email.errors?.required">Email Required.</mat-error>
+                            <mat-error *ngIf="f.email.errors && f.email.errors?.email">Email Not Valid.</mat-error>
+                        </mat-form-field>
+
+                        <mat-card-actions>
+                            <button mat-raised-button color="primary" type="submit" [disabled]="loading"
+                                (click)="onSubmit()">
+                                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                                Update</button>
+                            <button mat-raised-button color="primary" (click)="canceledit()">Cancel</button>
+                        </mat-card-actions>
+                    </mat-card-content>
+                </mat-card>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" *ngIf="!edit">
+    <mat-card>
+        <mat-card-content>
+            <div class="row">
+
+                <div class="col-12 col-sm-3">
+                    Name
+                </div>
+                <div class="col-12 col-sm-9">
+                    {{users?.name}}
+                </div>
+                <div class="col-12 col-sm-3">
+                    Email
+                </div>
+                <div class="col-12 col-sm-9">
+                    {{users?.emailId}}
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

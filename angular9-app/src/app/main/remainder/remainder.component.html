@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>Remainder {{add?"Add":"Edit"}}</h2>
+
+<div mat-dialog-content class="mat-typography">
+
+    <form [formGroup]="form">
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput placeholder="Remainder Name" formControlName="name" />
+                <mat-error *ngIf="f.name.errors && f.name.errors?.required">Name Required.</mat-error>
+                <mat-error *ngIf="f.name.errors && f.name.errors?.minlength && (f.name.dirty || f.name.touched)">
+                    Min 2 characters long.
+                </mat-error>
+            </mat-form-field>
+           <mat-form-field>
+                <mat-label>Desciption</mat-label>
+                <textarea matInput placeholder="Remainder Details" formControlName="description"></textarea>
+                <mat-error *ngIf="f.description.errors && f.description.errors?.required">Name Required.</mat-error>
+                <mat-error *ngIf="f.description.errors && f.description.errors?.minlength && (f.description.dirty || f.description.touched)">
+                    Min 2 characters long.
+                </mat-error>
+            </mat-form-field>  
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        </mat-card-content>
+    </form>
+</div>
+<div mat-dialog-actions> 
+    <button mat-raised-button color="primary" 
+            [disabled]="loading" (click)="onSubmit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+           Save</button>  
+    <button mat-raised-button color="primary" (click)="close()">Close</button>
+</div>
+ 

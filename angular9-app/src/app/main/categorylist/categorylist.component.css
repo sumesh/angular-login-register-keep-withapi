@@ -1,0 +1,28 @@
+ 
+
+.note-icon
+{
+  float: right;
+}
+.note-icon .mat-icon
+{
+  cursor: pointer;
+}
+.mat-form-field{width: 100%;} 
+.mat-card
+{
+  margin-bottom: 1em;;
+}
+ .note-content
+ {
+   padding: .3em 0;;
+ } 
+.note-remainder
+{
+  padding-top: .8em;
+  display: flex;
+  align-items: center;
+}
+.note-remainder span{ 
+  margin-left: .3em; /* optional */
+}
