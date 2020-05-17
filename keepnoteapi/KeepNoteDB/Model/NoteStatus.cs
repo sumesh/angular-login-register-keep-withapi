@@ -9,8 +9,10 @@ namespace KeepNoteDB.Model
     public class NoteStatus
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int StatusID { get; set; }
+        public int StatusId { get; set; }
 
         public string Status { get; set; }
+
+        public List<Note> Notes { get; set; }
     }
 }

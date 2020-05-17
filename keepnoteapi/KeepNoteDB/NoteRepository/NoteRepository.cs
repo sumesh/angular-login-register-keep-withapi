@@ -30,9 +30,9 @@ namespace KeepNoteDB.NoteRepository
             return await noteDb.Categories.Where(f => f.CategoryId == categoryid).FirstOrDefaultAsync();
         }
 
-        public  async Task<IEnumerable<Category>> GetCategories(int userid)
+        public async Task<IEnumerable<Category>> GetCategories(int userid)
         {
-            return  await noteDb.Categories.Where(f => f.UserID == userid).ToListAsync();
+            return await noteDb.Categories.Where(f => f.UserID == userid).ToListAsync();
         }
 
         public async Task<Category> DeleteCategory(int id)
@@ -73,7 +73,11 @@ namespace KeepNoteDB.NoteRepository
             return category;
         }
 
-
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="remid"></param>
+        /// <returns></returns>
         public async Task<Remainder> GetRemainder(int remid)
         {
             return await noteDb.Remainders.Where(f => f.RemainderId == remid).FirstOrDefaultAsync();
@@ -121,34 +125,95 @@ namespace KeepNoteDB.NoteRepository
 
             return remainder;
         }
- 
- 
-         
- 
 
-        public Note GetNote(int userid)
+
+
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// <param name="noteid"></param>
+        /// <returns></returns>
+        public async Task<NoteDTO> GetNote(int noteid)
         {
-            throw new NotImplementedException();
+            return await noteDb.Notes.Where(f => f.NoteId == noteid)
+                 .Select(s => new NoteDTO
+                 {
+                     NoteId = s.NoteId,
+                     Name = s.Name,
+                     Description = s.Description,
+                     Category = s.Category,
+                     Remainder = s.Remainder,
+                     Status = s.Status
+                 })
+                .FirstOrDefaultAsync();
         }
 
-        public IEnumerable<Note> GetNotes(int userid)
+        public async Task<IEnumerable<NoteDTO>> GetNotes(int userid)
         {
-            throw new NotImplementedException();
+            return await noteDb.Notes.Where(f => f.UserID == userid)
+                .Select(s => new NoteDTO
+                {
+                    NoteId = s.NoteId,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Category = s.Category,
+                    Remainder = s.Remainder,
+                    Status = s.Status
+                })
+                .ToListAsync();
         }
 
-        public Task<bool> DeleteNote(Note category)
+        public async Task<Note> DeleteNote(int id)
         {
-            throw new NotImplementedException();
+            var rem = await noteDb.Notes.FindAsync(id);               
+            if (rem == null)
+            {
+                return null;
+            }
+
+            noteDb.Notes.Remove(rem);
+            await noteDb.SaveChangesAsync();
+
+            return rem;
         }
 
-        public Task<bool> UpdateNote(Note category)
+        public async Task<bool> CreateNote(Note note)
         {
-            throw new NotImplementedException();
+            note.UpdatedOn = DateTime.Now;
+            noteDb.Notes.Add(note);
+            int ret = await noteDb.SaveChangesAsync();
+            return ret > 0 ? true : false;
         }
 
-        public IEnumerable<NoteStatus> GetNoteStatus()
+        public async Task<Note> UpdateNote(Note note)
         {
-            throw new NotImplementedException();
+            var ret = await noteDb.Notes.FindAsync(note.NoteId);
+            if (ret == null)
+            {
+                return null;
+            }
+
+            ret.Name = note.Name;
+            ret.Description = note.Description;
+            ret.CategoryId = note.CategoryId;
+            ret.RemainderId = note.RemainderId;
+            ret.StatusId = note.StatusId;
+            ret.UpdatedOn = DateTime.Now;
+            await noteDb.SaveChangesAsync();
+
+            return note;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<NoteStatus>> GetNoteStatuses()
+        {
+            return await noteDb.NoteStatuses.ToListAsync();
+        }
+
     }
 }

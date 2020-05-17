@@ -90,6 +90,7 @@ namespace KeepNote.Controllers
             }
         }
 
+        
 
         private UserDTO Authenticate(User u)
         {
@@ -115,7 +116,7 @@ namespace KeepNote.Controllers
                 {
                     new Claim(ClaimTypes.Name, user.UserId.ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(2),
+                Expires = DateTime.UtcNow.AddMinutes(20),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

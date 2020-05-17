@@ -19,5 +19,7 @@ namespace KeepNoteDB.Model
 
         public DateTime UpdatedOn { get; set; }
 
+        public List<Note> Notes { get; set; }
+
     }
 }

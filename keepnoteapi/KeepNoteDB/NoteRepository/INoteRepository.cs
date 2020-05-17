@@ -41,17 +41,22 @@ namespace KeepNoteDB.NoteRepository
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        Note GetNote(int userid);
+        /// <summary>
+        /// Remainder Section
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <returns></returns>
+        Task<NoteDTO> GetNote(int id);
 
-        IEnumerable<Note> GetNotes(int userid);
+        Task<IEnumerable<NoteDTO>> GetNotes(int userid);
 
-        Task<bool> DeleteNote(Note category);
+        Task<Note> DeleteNote(int noteid);
 
-        Task<bool> UpdateNote(Note category);
+        Task<bool> CreateNote(Note note);
 
-        IEnumerable<NoteStatus> GetNoteStatus();
+        Task<Note> UpdateNote(Note note);
 
-
+        Task<IEnumerable<NoteStatus>> GetNoteStatuses();
 
     }
 }
