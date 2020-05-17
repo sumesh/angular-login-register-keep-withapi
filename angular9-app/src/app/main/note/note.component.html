@@ -1,60 +1,64 @@
-<h2 mat-dialog-title>Note {{addnote?"Add":"Edit"}}</h2>
+<h2 mat-dialog-title>Note {{add?"Add":"Edit"}}</h2>
 
 <div mat-dialog-content class="mat-typography">
 
-    <form [formGroup]="noteform">
+    <form [formGroup]="form">
         <mat-card-content>
             <mat-form-field>
                 <mat-label>Title</mat-label>
-                <input matInput placeholder="Note Title" formControlName="notetitle" />
-                <mat-error *ngIf="noteform.get('notetitle').hasError('required') ">Title Required.</mat-error>
-                <mat-error
-                    *ngIf="noteform.get('notetitle').hasError('minlength') && (noteform.get('notetitle').dirty || noteform.get('notetitle').touched)">
-                    Title must be at least 3 characters long.</mat-error>
+                <input matInput placeholder="Note Title" formControlName="name" />
+                <mat-error *ngIf="f.name.errors && f.name.errors?.required">Name Required.</mat-error>
+                <mat-error *ngIf="f.name.errors && f.name.errors?.minlength && (f.name.dirty || f.name.touched)">
+                    Title must be at least 3 characters long.
+                </mat-error> 
             </mat-form-field>
            <mat-form-field>
                 <mat-label>Note</mat-label>
-                <textarea matInput placeholder="Note Details" formControlName="note"></textarea>
-                <mat-error *ngIf="noteform.get('note').hasError('required') ">Note Required.</mat-error>
-                <mat-error
-                    *ngIf="noteform.get('note').hasError('minlength') && (noteform.get('note').dirty || noteform.get('note').touched)">
-                    Note must be at least 3 characters long.</mat-error>
+                <textarea matInput placeholder="Note Details" formControlName="description"></textarea>
+                <mat-error *ngIf="f.description.errors && f.description.errors?.required">Description Required.</mat-error>
+                <mat-error *ngIf="f.description.errors && f.description.errors?.minlength && (f.description.dirty || f.description.touched)">
+                  Note must be atleast 2 characters long.
+                </mat-error>
             </mat-form-field>
            
             <mat-form-field>
                 <mat-label>Category</mat-label>
                 <mat-select placeholder="Select Category" style="width:100%" formControlName="category">
-                    <mat-option *ngFor="let s of lstCategories" [value]="s">
-                        {{s.Value}}
+                    <mat-option *ngFor="let s of lstCategories" [value]="s.categoryId">
+                        {{s.name}}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="noteform.get('category').hasError('required') ">Category Required.</mat-error>
+                <mat-error *ngIf="f.category.errors && f.category.errors?.required">Category Required.</mat-error> 
             </mat-form-field>
 
                 <mat-form-field>
                 <mat-label>Remainder</mat-label>
-                <mat-select placeholder="Select Remainder" style="width:100%" formControlName="noteremainder">
-                    <mat-option *ngFor="let s of lstCategories" [value]="s">
-                        {{s.Value}}
+                <mat-select placeholder="Select Remainder" style="width:100%" formControlName="remainder">
+                    <mat-option *ngFor="let s of lstRemainders" [value]="s.remainderId">
+                        {{s.name}}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="noteform.get('noteremainder').hasError('required') ">Remainder Required.</mat-error>
+                <mat-error *ngIf="f.remainder.errors && f.remainder.errors?.required">Remainder Required.</mat-error>                  
             </mat-form-field>
           
             <mat-form-field>
                 <mat-label>Note Staus</mat-label>
-                <mat-select placeholder="Select Note Status" style="width:100%" formControlName="notestatus">
-                    <mat-option *ngFor="let s of lststatus" [value]="s">
-                        {{s.Value}}
+                <mat-select placeholder="Select Note Status" style="width:100%" formControlName="status">
+                    <mat-option *ngFor="let s of lststatus" [value]="s.statusId">
+                        {{s.status}}
                     </mat-option>
                 </mat-select>
-                <mat-error *ngIf="noteform.get('notestatus').hasError('required') ">status Required.</mat-error>
+                <mat-error *ngIf="f.status.errors && f.status.errors?.required">Staus Required.</mat-error> 
             </mat-form-field>  
+            <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
         </mat-card-content>
     </form>
 </div>
 <div mat-dialog-actions> 
-    <button mat-raised-button color="primary" (click)="savenote();">Save</button>
-    <button mat-raised-button color="primary" (click)="close()">Close</button>
+    <button mat-raised-button color="primary" 
+    [disabled]="loading" (click)="onSubmit()">
+    <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+   Save</button>  
+<button mat-raised-button color="primary" (click)="close()">Close</button>
 </div>
  

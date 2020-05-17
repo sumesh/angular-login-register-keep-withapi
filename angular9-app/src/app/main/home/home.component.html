@@ -1,20 +1,19 @@
 <div class="container-fluid">
     <div class="row justify-content-between">
-        <div class="col-4 col-sm-6 col-md-6">
-            <h1>Note</h1>
+        <div class="col-6 col-sm-6 col-md-6">
+            <h1> <mat-icon>local_library</mat-icon> Note</h1>
         </div>
-        <div class="col-8 col-sm-6 col-md-6" style="text-align: right;">
+        <div class="col-6 col-sm-6 col-md-6" style="text-align: right;">
 
-            <button mat-button (click)="addnotes()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <button mat-button (click)="addnotes(0)">
                 <mat-icon>note_add</mat-icon>
                 Add
-            </button>
-            
-            <button mat-button>
+            </button>  
+            <!-- <button mat-button>
                 <mat-icon>list</mat-icon>
                  List
-            </button>
-            
+            </button>  -->
             <!-- <button mat-button >
                 <mat-icon>view_column</mat-icon>
                  Column
@@ -25,26 +24,44 @@
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-sm-6 col-md-4 col-lg-3  cards" *ngFor="let s of notes">
+    <div class="row justify-content-stat">     
+        <div  class="col-12 col-sm-6 col-md-4 col-lg-3" *ngIf="list?.length>0">
+            <mat-form-field fxFlex="25" class="mb-1"> 
+                <mat-icon matSuffix>search</mat-icon>
+                <input matInput placeholder="Type to filter the name"   (keyup)='updateFilter($event)'>
+             </mat-form-field>
+        </div>
+    </div>
+    <div class="row"> 
+        <div class="col-12 col-sm-12 col-md-12 col-lg-12  cards" *ngIf="rows?.length==0">
             <mat-card>
-                <mat-card-title>Metadata List Card</mat-card-title>  
-                <mat-card-subtitle>Info About This Item <span   class="note-icon">
+                <mat-card-title>No Notes found</mat-card-title>  
+            </mat-card>
+        </div> 
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3  cards" *ngFor="let s of rows">
+            <mat-card>
+                <mat-card-title>{{s.name}}</mat-card-title>  
+                <mat-card-subtitle>{{s.status?.status}} <span   class="note-icon">
+                    <button mat-icon-button aria-label="Delete" (click)="delete(s.noteId)">
                         <mat-icon color="warn">delete</mat-icon>
+                      </button>
+                      <button mat-icon-button aria-label="Edit" (click)="addnotes(s.noteId)">
                         <mat-icon color="primary">edit</mat-icon>
+                      </button>
                     </span></mat-card-subtitle>
                 <mat-divider></mat-divider>
                 <mat-card-content>
                     <div class="note-content">
-                         The Shiba Inu is the smallest of the six original and distinct
-                        spitz breeds of dog from Japan.
-                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-                        bred for hunting.
+                        {{s.description}}
                     </div>
                     <mat-divider></mat-divider>
                     <div  class="note-remainder">
+                        <mat-icon color="primary">category</mat-icon>
+                        <span>{{s.category?.name}}</span> 
+                     </div>
+                    <div  class="note-remainder">
                        <mat-icon color="primary">alarm</mat-icon>
-                       <span>Remainder</span> 
+                       <span>{{s.remainder?.name}}</span> 
                     </div>
                 </mat-card-content>
             </mat-card>

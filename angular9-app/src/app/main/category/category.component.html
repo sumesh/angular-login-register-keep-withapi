@@ -15,7 +15,7 @@
            <mat-form-field>
                 <mat-label>Desciption</mat-label>
                 <textarea matInput placeholder="Category Details" formControlName="description"></textarea>
-                <mat-error *ngIf="f.description.errors && f.description.errors?.required">Name Required.</mat-error>
+                <mat-error *ngIf="f.description.errors && f.description.errors?.required">Description Required.</mat-error>
                 <mat-error *ngIf="f.description.errors && f.description.errors?.minlength && (f.description.dirty || f.description.touched)">
                     Min 2 characters long.
                 </mat-error>
